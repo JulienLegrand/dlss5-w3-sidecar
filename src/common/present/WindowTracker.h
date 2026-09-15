@@ -13,8 +13,8 @@ struct TargetWindow {
   bool borderless = false;
 };
 
-// Warcraft 3 Reforged's top-level window classes. Matching by class rather than
-// by process is deliberate: it needs no process handle at all (I2).
+// Known Warcraft 3 Reforged top-level window classes. The implementation also
+// has a title-based fallback because Reforged can register another class.
 inline constexpr const wchar_t* kWowWindowClasses[] = {
     L"waApplication Window",
     L"GxWindowClass",

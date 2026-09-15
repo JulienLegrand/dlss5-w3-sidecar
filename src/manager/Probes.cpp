@@ -287,12 +287,12 @@ ProbeResult ProbeReshade(const fs::path& sidecarDir) {
 
 ProbeResult ProbeWowWindow() {
   ProbeResult r;
-  r.title = "World of Warcraft window";
+  r.title = "Warcraft 3 window";
 
   const auto wow = FindWowWindow();
   if (!wow) {
     r.state = ProbeState::Warn;
-    r.detail = "WoW is not running.";
+    r.detail = "Warcraft 3 is not running.";
     r.remedy = "Start the game, then run the probes again.";
     return r;
   }
@@ -308,7 +308,7 @@ ProbeResult ProbeWowWindow() {
   }
   r.state = ProbeState::Fail;
   r.detail += " windowed with a border, or exclusive fullscreen";
-  r.remedy = "Set WoW to borderless windowed. Exclusive fullscreen has no "
+  r.remedy = "Set Warcraft 3 to borderless windowed. Exclusive fullscreen has no "
              "compositor surface to capture and yields black frames.";
   return r;
 }

@@ -11,6 +11,27 @@ namespace {
 std::mutex g_mutex;
 std::unordered_map<HWND, WindowTracker*> g_trackers;
 
+struct EnumWindowContext {
+  std::optional<TargetWindow> target;
+};
+
+BOOL CALLBACK FindWowWindowByTitle(HWND hwnd, LPARAM parameter) {
+  auto& context = *reinterpret_cast<EnumWindowContext*>(parameter);
+  if (!IsWindowVisible(hwnd)) return TRUE;
+
+  wchar_t title[256] = {};
+  GetWindowTextW(hwnd, title, static_cast<int>(std::size(title)));
+  if (wcsstr(title, kWowWindowTitle) == nullptr) return TRUE;
+
+  auto rect = ClientRectInScreen(hwnd);
+  if (!rect || rect->right - rect->left <= 0 || rect->bottom - rect->top <= 0) {
+    return TRUE;
+  }
+
+  context.target = TargetWindow{hwnd, *rect, IsBorderless(hwnd)};
+  return FALSE;
+}
+
 }  // namespace
 
 bool IsBorderless(HWND hwnd) {
@@ -76,6 +97,14 @@ std::optional<TargetWindow> FindWowWindow() {
       return t;
     }
   }
+
+  // Reforged can register a different top-level class depending on the
+  // renderer and launcher version. Its main window keeps the product title,
+  // so use that as a fallback after the known class names.
+  EnumWindowContext context;
+  EnumWindows(&FindWowWindowByTitle, reinterpret_cast<LPARAM>(&context));
+  if (context.target) return context.target;
+
   return std::nullopt;
 }
 

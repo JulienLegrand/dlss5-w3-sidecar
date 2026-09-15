@@ -13,8 +13,8 @@ using namespace sidecar;
 // chance to capture the wrong application's window. These pin the rule.
 
 TEST_CASE("distinctive WoW classes match on their own", "[unit]") {
-  CHECK(WowWindowMatches(L"waApplication Window", L"World of Warcraft"));
-  CHECK(WowWindowMatches(L"GxWindowClass", L"World of Warcraft"));
+  CHECK(WowWindowMatches(L"waApplication Window", L"Warcraft III"));
+  CHECK(WowWindowMatches(L"GxWindowClass", L"Warcraft III"));
   // A localised client may not be titled in English, so a distinctive class is
   // not made conditional on the title.
   CHECK(WowWindowMatches(L"waApplication Window", L"Monde des Ténèbres"));
@@ -24,16 +24,16 @@ TEST_CASE("distinctive WoW classes match on their own", "[unit]") {
 // The 2026-08 retail client registers plain "w", which any application could
 // use, so on its own it must not be enough.
 TEST_CASE("the generic class needs the title to agree", "[unit]") {
-  CHECK(WowWindowMatches(L"w", L"World of Warcraft"));
+  CHECK(WowWindowMatches(L"w", L"Warcraft III"));
   CHECK_FALSE(WowWindowMatches(L"w", L"Notepad"));
   CHECK_FALSE(WowWindowMatches(L"w", L""));
   CHECK_FALSE(WowWindowMatches(L"w", nullptr));
 }
 
 TEST_CASE("unknown classes never match", "[unit]") {
-  CHECK_FALSE(WowWindowMatches(L"Chrome_WidgetWin_1", L"World of Warcraft"));
-  CHECK_FALSE(WowWindowMatches(L"", L"World of Warcraft"));
-  CHECK_FALSE(WowWindowMatches(nullptr, L"World of Warcraft"));
+  CHECK_FALSE(WowWindowMatches(L"Chrome_WidgetWin_1", L"Warcraft III"));
+  CHECK_FALSE(WowWindowMatches(L"", L"Warcraft III"));
+  CHECK_FALSE(WowWindowMatches(nullptr, L"Warcraft III"));
 }
 
 TEST_CASE("class specificity is judged by length", "[unit]") {

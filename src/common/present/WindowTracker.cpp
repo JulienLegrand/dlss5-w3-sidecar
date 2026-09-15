@@ -41,13 +41,15 @@ bool ClassNameIsSpecificEnough(const wchar_t* className) {
 }
 
 bool WowWindowMatches(const wchar_t* className, const wchar_t* title) {
-  if (!className) return false;
+  if (!className || !title) return false;
 
-  bool known = false;
-  for (const wchar_t* candidate : kWowWindowClasses) {
-    if (wcscmp(className, candidate) == 0) { known = true; break; }
+  if (wcscmp(className, L"waApplication Window") == 0 ||
+      wcscmp(className, L"GxWindowClass") == 0) {
+    return true;
   }
-  return known;
+
+  return wcscmp(className, L"w") == 0 &&
+         wcscmp(title, kWowWindowTitle) == 0;
 }
 
 std::optional<TargetWindow> FindWowWindow() {

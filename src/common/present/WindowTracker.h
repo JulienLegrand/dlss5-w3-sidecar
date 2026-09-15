@@ -16,10 +16,13 @@ struct TargetWindow {
 // Warcraft 3 Reforged's top-level window classes. Matching by class rather than
 // by process is deliberate: it needs no process handle at all (I2).
 inline constexpr const wchar_t* kWowWindowClasses[] = {
-    L"Warcraft III",
+    L"waApplication Window",
+    L"GxWindowClass",
+    L"w",
 };
 
-// The window title Warcraft 3 Reforged gives its main window.
+// The window title used by the retail client when it registers the generic
+// class. Localised titles are allowed for the distinctive classes above.
 inline constexpr const wchar_t* kWowWindowTitle = L"Warcraft III";
 
 // Whether a class name is specific enough to identify Warcraft 3 Reforged by itself.

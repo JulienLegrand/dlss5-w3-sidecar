@@ -42,12 +42,12 @@ jobs:
         run: choco install ninja -y
 
       - name: Configure
-        run: cmake -S . -B build -G Ninja -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl
 
       # The invariant check runs as a post-build step on every executable, so a
       # forbidden import fails this step rather than shipping.
       - name: Build
-        run: cmake --build build --config Debug
+        run: cmake --build build --config Release
 
       # [device] tests need an NVIDIA GPU and are deliberately excluded: the
       # runners have none, and a skipped GPU test must not read as a pass.
@@ -63,7 +63,7 @@ jobs:
       - name: Upload compiled executables
         uses: actions/upload-artifact@v4
         with:
-          name: sidecar-windows-debug
+          name: sidecar-windows-release
           if-no-files-found: error
           path: |
             build/wowsidecar.exe

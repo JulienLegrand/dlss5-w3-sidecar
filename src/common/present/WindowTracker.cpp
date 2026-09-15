@@ -47,17 +47,11 @@ bool WowWindowMatches(const wchar_t* className, const wchar_t* title) {
   for (const wchar_t* candidate : kWowWindowClasses) {
     if (wcscmp(className, candidate) == 0) { known = true; break; }
   }
-  if (!known) return false;
-  if (ClassNameIsSpecificEnough(className)) return true;
-
-  // A generic class has to be backed up by the title.
-  return title != nullptr && wcscmp(title, kWowWindowTitle) == 0;
+  return known;
 }
 
 std::optional<TargetWindow> FindWowWindow() {
-  // A client can own several windows of its class, most of them hidden or
-  // zero-sized, so take the first visible one with a real client area rather
-  // than whatever FindWindow happens to return first.
+  // Take the first visible window with a real client area.
   for (const wchar_t* className : kWowWindowClasses) {
     HWND hwnd = nullptr;
     while ((hwnd = FindWindowExW(nullptr, hwnd, className, nullptr)) != nullptr) {

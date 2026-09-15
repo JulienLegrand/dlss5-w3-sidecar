@@ -577,7 +577,7 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE, PWSTR, int show) {
     if (g_fonts.title) ImGui::PopFont();
 
     if (g_fonts.caption) ImGui::PushFont(g_fonts.caption);
-    ImGui::TextDisabled("Neural rendering for World of Warcraft, from outside the game process");
+    ImGui::TextDisabled("Neural rendering for Warcraft3, from outside the game process");
     if (g_fonts.caption) ImGui::PopFont();
 
     // The primary action lives in the header and never moves, so it is in the

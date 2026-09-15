@@ -13,40 +13,28 @@ struct TargetWindow {
   bool borderless = false;
 };
 
-// WoW's top-level window classes, observed rather than documented, which is why
-// this list has grown twice. Retail has registered "waApplication Window" and,
-// as of the 2026-08 client, plain "w"; older and Classic clients use
-// "GxWindowClass". Matching by class rather than by process is deliberate: it
-// needs no process handle at all (I2).
+// Warcraft 3 Reforged's top-level window classes. Matching by class rather than
+// by process is deliberate: it needs no process handle at all (I2).
 inline constexpr const wchar_t* kWowWindowClasses[] = {
-    L"waApplication Window",
-    L"GxWindowClass",
-    L"w",
+    L"Warcraft III",
 };
 
-// The window title WoW gives its main window, used to disambiguate the classes
-// that are too generic to stand alone.
-inline constexpr const wchar_t* kWowWindowTitle = L"World of Warcraft";
+// The window title Warcraft 3 Reforged gives its main window.
+inline constexpr const wchar_t* kWowWindowTitle = L"Warcraft III";
 
-// Whether a class name is specific enough to identify WoW by itself.
-//
-// "w" plainly is not -- any application could register it -- so a window of that
-// class is only accepted when its title matches as well. The longer names are
-// distinctive enough that a title check would only risk rejecting a localised
-// client for no gain.
+// Whether a class name is specific enough to identify Warcraft 3 Reforged by itself.
 //
 // Pure, and unit-tested, because getting it wrong either misses the game
 // entirely or captures somebody else's window.
 bool ClassNameIsSpecificEnough(const wchar_t* className);
 
 // Given what can be read from a window without opening its process, does this
-// look like WoW's main window?
+// look like Warcraft 3 Reforged's main window?
 bool WowWindowMatches(const wchar_t* className, const wchar_t* title);
 
 std::optional<TargetWindow> FindWowWindow();
 
-// Display mode from window styles only. The spec forbids reading WoW's game
-// data, so Config.wtf is never parsed (I5).
+// Display mode from window styles only.
 bool IsBorderless(HWND hwnd);
 
 std::optional<RECT> ClientRectInScreen(HWND hwnd);
